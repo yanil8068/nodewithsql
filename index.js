@@ -1,5 +1,7 @@
 const { faker } = require('@faker-js/faker'); // to generate random data
 const mysql = require('mysql2'); // to connect with mysql
+const express = require("express");
+const app = express();
 
 const conn = mysql.createConnection({ // here we are building the connection
     host: 'localhost',
@@ -17,25 +19,38 @@ const conn = mysql.createConnection({ // here we are building the connection
     ];
   }
 
-let q = "INSERT INTO user(id, username, email, password) VALUES ?"; // in place of ? comes the data array , this is the query to add data in database
-// let users = [["123b", "123_newuserb", "abc@gmail.comb","abcb"],["123c", "123_newuserc", "abc@gmail.comc","abcc"]];
+  //we do not need this anymore as we have inserted our 100 data already in database
+// let q = "INSERT INTO user(id, username, email, password) VALUES ?"; // in place of ? comes the data array , this is the query to add data in database
+// // let users = [["123b", "123_newuserb", "abc@gmail.comb","abcb"],["123c", "123_newuserc", "abc@gmail.comc","abcc"]];
 
-let data = []; // here we will put all the 100 data that is gerenated using faker
-for(let i=1; i<=100; i++){ // here we are generating 100 data using faker and pusing all that in data array
-data.push(getRandomUser());
-}
+// let data = []; // here we will put all the 100 data that is gerenated using faker
+// for(let i=1; i<=100; i++){ // here we are generating 100 data using faker and pusing all that in data array
+// data.push(getRandomUser());
+// }
 
 
-try {
-    conn.query(q, [data],(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
-        if(err) throw err;
-        console.log(result);
-    })
+
+app.listen(8080, ()=>{
+  console.log(`app is listening on port 8080`);
+})
+
+app.get("/", (req, res)=> {
+console.log("response is working ");
+res.send("response is working");
+})
+
+
+//we will need this to use in routes
+// try {
+//     conn.query(q, [data],(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+//         if(err) throw err;
+//         console.log(result);
+//     })
     
-} catch (error) {
-    console.log(error);
-}
-conn.end();
+// } catch (error) {
+//     console.log(error);
+// }
+// conn.end();
 
 
 
