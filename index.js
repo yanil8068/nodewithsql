@@ -2,6 +2,10 @@ const { faker } = require('@faker-js/faker'); // to generate random data
 const mysql = require('mysql2'); // to connect with mysql
 const express = require("express");
 const app = express();
+const path = require("path");
+
+app.set("view engine ", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 const conn = mysql.createConnection({ // here we are building the connection
     host: 'localhost',
@@ -35,8 +39,18 @@ app.listen(8080, ()=>{
 })
 
 app.get("/", (req, res)=> {
-console.log("response is working ");
-res.send("response is working");
+try {
+  const q = `SELECT COUNT(*) FROM user`;
+    conn.query(q,(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+        if(err) throw err;
+       const count = result[0]["COUNT(*)"];
+        res.render("home.ejs", {count});
+    })
+    
+} catch (error) {
+    console.log(error);
+    res.send(error);
+}
 })
 
 
