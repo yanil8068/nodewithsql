@@ -8,22 +8,26 @@ const conn = mysql.createConnection({ // here we are building the connection
     password: 'anil'
   });
 
- const getRandomUser=()=>{ // here we are generating information of single user using faker
-      return {
-        userId: faker.string.uuid(),
-        userName: faker.internet.userName(),
-        email: faker.internet.email(),
-        password: faker.internet.password()
-      };
-    }
-    console.log(getRandomUser());
+  const getRandomUser=()=>{ // here we are generating information of single user using faker
+    return [
+      faker.string.uuid(),
+      faker.internet.userName(),
+      faker.internet.email(),
+      faker.internet.password()
+    ];
+  }
 
-   let users = [["123d", "123_newuserd", "abc@gmail.comd","abcd"],["123e", "123_newusere", "abc@gmail.come","abce"]]; //created 2 data to put in database
-let q = "INSERT INTO user (id, username, email, password) VALUES ?";
-   //before adding any data to database first we should have created a database and made its shema or table before
+let q = "INSERT INTO user(id, username, email, password) VALUES ?"; // in place of ? comes the data array , this is the query to add data in database
+// let users = [["123b", "123_newuserb", "abc@gmail.comb","abcb"],["123c", "123_newuserc", "abc@gmail.comc","abcc"]];
+
+let data = []; // here we will put all the 100 data that is gerenated using faker
+for(let i=1; i<=100; i++){ // here we are generating 100 data using faker and pusing all that in data array
+data.push(getRandomUser());
+}
+
 
 try {
-    conn.query(q, [users],(err, result)=>{ //here we are writing query "q" to add 100 data "users" in database
+    conn.query(q, [data],(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
         if(err) throw err;
         console.log(result);
     })
@@ -31,11 +35,7 @@ try {
 } catch (error) {
     console.log(error);
 }
-conn.end(); // here we are stopping our connection which is important after starting the connection as if we do not did this then our connection will keep on started 
-
-
-
-
+conn.end();
 
 
 
