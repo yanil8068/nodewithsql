@@ -121,6 +121,32 @@ app.patch("/user/:id", (req, res)=> {
   }
   });
 
+
+
+  //create new user form
+  app.get("/users/createnewuser", (req, res)=> {
+res.render("createnewuser.ejs");
+    })
+
+    app.post("/users/addnewuser", (req, res)=> {
+    
+      try {
+        const {id, username, email, password}=req.body;
+       
+        const q =  `INSERT INTO user VALUES ('${id}', '${username}', '${email}', '${password}')`;
+          conn.query(q,(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+              if(err) throw err;
+         const user = result[0]
+              res.redirect("/users");
+          })
+          
+      } catch (error) {
+          console.log(error);
+          res.send(error);
+      }
+      
+          })
+
 //we will need this to use in routes
 // try {
 //     conn.query(q, [data],(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
