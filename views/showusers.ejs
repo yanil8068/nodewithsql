@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>show users</title>
-    <style></style>
+    <style>
+      th,
+      table,
+      td {
+        border: 2px solid black;
+      }
+    </style>
   </head>
   <body>
     <h1>show all users here</h1>
@@ -14,6 +20,8 @@
         <th>id</th>
         <th>username</th>
         <th>email</th>
+        <th>edit button</th>
+        <th>delete button</th>
       </tr>
       <% for(user of users){ %>
       <tr>

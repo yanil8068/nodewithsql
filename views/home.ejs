@@ -4,9 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
   </head>
   <body>
-    <h1>total number of users are : <%= count %></h1>
-    <button>join us today!</button>
+    <h1>Welcome to our data visualizer</h1>
+    <br />
+    <h3>total number of users are : <%= count %></h3>
+    <br />
+    <form method="get" action="/users">
+      <button>see all user data</button>
+    </form>
   </body>
 </html>
