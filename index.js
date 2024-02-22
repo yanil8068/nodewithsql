@@ -38,6 +38,7 @@ app.listen(8080, ()=>{
   console.log(`app is listening on port 8080`);
 })
 
+//home route
 app.get("/", (req, res)=> {
 try {
   const q = `SELECT COUNT(*) FROM user`;
@@ -53,6 +54,21 @@ try {
 }
 })
 
+//users route
+app.get("/users", (req, res)=> {
+  try {
+    const q = `SELECT * FROM user`;
+      conn.query(q,(err, users)=>{ //here we are writing query "q" to add 100 data "data" in database
+          if(err) throw err;
+     
+          res.render("showusers.ejs",{users});
+      })
+      
+  } catch (error) {
+      console.log(error);
+      res.send(error);
+  }
+  })
 
 //we will need this to use in routes
 // try {
