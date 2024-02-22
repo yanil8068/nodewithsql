@@ -128,6 +128,8 @@ app.patch("/user/:id", (req, res)=> {
 res.render("createnewuser.ejs");
     })
 
+
+    //add to database route
     app.post("/users/addnewuser", (req, res)=> {
     
       try {
@@ -146,6 +148,28 @@ res.render("createnewuser.ejs");
       }
       
           })
+          
+//delete route
+app.delete("/users/:id/delete", (req, res)=>{
+  try {
+    const {id} = req.params;
+   console.log(id);
+    const q = `DELETE FROM user WHERE id='${id}'`;
+      conn.query(q,(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+          if(err) throw err;
+     const user = result[0]
+          res.redirect("/users");
+      })
+      
+  } catch (error) {
+      console.log(error);
+      res.send(error);
+  }
+})
+
+
+
+
 
 //we will need this to use in routes
 // try {

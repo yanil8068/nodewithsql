@@ -25,6 +25,14 @@
             <button>edit</button>
           </form>
         </td>
+        <td>
+          <form
+            method="post"
+            action="/users/<%=user.id%>/delete?_method=DELETE"
+          >
+            <button>delete user</button>
+          </form>
+        </td>
       </tr>
       <% } %>
     </table>
