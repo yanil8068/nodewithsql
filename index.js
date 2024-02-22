@@ -3,9 +3,13 @@ const mysql = require('mysql2'); // to connect with mysql
 const express = require("express");
 const app = express();
 const path = require("path");
+const methodOverride = require('method-override');
 
 app.set("view engine ", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname,"public")));
+app.use(express.urlencoded({extended: true}));
 
 const conn = mysql.createConnection({ // here we are building the connection
     host: 'localhost',
@@ -69,6 +73,53 @@ app.get("/users", (req, res)=> {
       res.send(error);
   }
   })
+
+//edit route
+  app.get("/users/:id/edit", (req, res)=> {
+    try {
+      const {id} = req.params;
+      const q = `SELECT * FROM user where id='${id}'`;
+        conn.query(q,(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+            if(err) throw err;
+       const user = result[0]
+            res.render("edit.ejs",{user});
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+    })
+
+//update route
+app.patch("/user/:id", (req, res)=> {
+  try {
+    const {id} = req.params;
+    const {username: newusername, password: newpassword} = req.body;
+    console.log(newusername);
+    const q = `SELECT * FROM user where id='${id}'`;
+      conn.query(q,(err, result)=>{ //here we are writing query "q" to add 100 data "data" in database
+          if(err) throw err;
+     const user = result[0];
+     if(newpassword!= user.password){
+      res.send("wrong password");
+     }else{
+      const q2 = `UPDATE user SET username='${newusername}' where id='${id}'`;
+      conn.query(q2,(err, result)=>{ 
+        if(err) throw err;
+   res.redirect("/users");
+    })
+    
+     
+     }
+         
+      })
+      
+  } catch (error) {
+      console.log(error);
+      res.send(error);
+  }
+  });
 
 //we will need this to use in routes
 // try {
